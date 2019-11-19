@@ -1,7 +1,0 @@
-Method,Description,Instance Variables,Class Methods,Other Methods,Line count
-main(final [] args),"main function.
-",,,"level.generateLevel
-level.printDescription
-",2
-test(),test method,,,"level.generateLevel()
-",1

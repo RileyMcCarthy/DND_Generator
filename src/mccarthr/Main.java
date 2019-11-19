@@ -10,7 +10,7 @@ class Main {
 /**
 * main function.
 *@param args args for main.
-*/
+
   public static void main(final String[] args) {
     Level level = new Level();
     level.generateLevel();
@@ -19,5 +19,5 @@ class Main {
   public void test() {
     Level level = new Level();
   }
-
+*/
 }
