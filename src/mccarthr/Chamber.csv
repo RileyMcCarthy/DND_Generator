@@ -1,0 +1,151 @@
+Method,Description,Instance Variables,Class Methods,Other Methods,Line count
+Chamber(),"
+ this is the chamber contructor that initilizes chamber instance.
+
+",,"initMem()
+initContents()
+genShape()
+","myContents.chooseContents()
+",4
+initMem(),"this is the helper method for constructor
+ that initilizes instance variable memory.","myContents
+die20
+monsters
+treasures
+stairs
+traps
+doors
+",,,7
+setShape(final ChamberShape theShape),"this setter, sets the shape of chamber, from 
+parameter theShape
+","myShape
+",initDoors(),myShape.getNumExits(),2
+ChamberShape getChamberShape(),"this method returns the ChamberShape
+of the current chamber instance
+","myShape
+",,,1
+getDoors(),"this method returns the ArrayList of current
+doors in the chamber, returns null if no 
+doors exist
+","
+doors
+",,,4
+addMonster(final Monster theMonster),"this method adds a monster (theMonster) to an
+ArrayList of Monsters representing monsters
+in chamber
+","monsters
+",,"monsters.add()
+",1
+getMonsters(),"this method returns the ArrayList representing
+the current monsters in the chamber
+","monsters
+",,,1
+addTreasure(final Treasure theTreasure),"this method adds a treasure(theTreasure)
+ to the chambers ArrayList of treasures
+",,,"treasures.add()
+",1
+getTreasureList(),"this method returns a ArrayList of all the
+treasures in chamber
+","treasures
+",,,1
+getDescription(),"abstract method from space that returns the 
+description of the chamber
+","myShape
+","getDimDescription()
+getDoorsDescription()
+getContentsDescription()
+getStairsDescription()
+getTrapDescription()
+getTreasureDescription()","
+myShape.getShape()
+",9
+getDimDescription(),"helper method that returns the description
+of the chamber dimensions","myShape
+",,"myShape.getLength()
+myShape.getWidth()
+myShape.getArea()
+",12
+getDoorsDescription(),"helper method that returns the description
+of the chamber doors","doors
+",doors.get().getDescription(),"desc.concat()
+doors.size()
+",3
+getContentsDescription(),"helper method that returns the description
+of the chamber contents","monsters
+myContents
+",,"myContents.getDescription()
+monsters.get().getDescription()
+",4
+getStairsDescription(),"helper method that returns description of 
+the stairs ","stairs
+",,"stairs.get().getDescription()
+",3
+getTrapDescription(),"helper method that returns description of 
+the trap","traps
+",,"traps.get().getDescription()
+",3
+getTreasureDescription(),"helper method that returns description of 
+the treasures","treasures
+",,"treasures.get().getWholeDescription()
+treasures.size()
+",4
+setDoor(final Door newDoor),"
+abstract method from Space. Adds newDoor to
+Chamber
+",,,"doors.add()
+",1
+setIndex(final  id),"
+setter to set position/index of chamber.
+","index
+",,,1
+getIndex(),"returns index of chamber
+","index
+",,,1
+initContents(),"helper to call nessisary methods to initiate 
+chamber","index
+","initMonsters
+initStairs
+initTreasure
+initTraps
+",,5
+initDoors(final  numDoors),"adds numDoors to the chamber
+","doors
+",,"temp.setIndex()
+temp.setOneSpace()
+",5
+genShape(),"
+creates a random shape for chamber.
+
+","myShape
+",,"ChamberShape.selectChamberShape
+myShape.setNumExits
+",3
+getExitCount(),"returns number of exits on chamber
+","myShape
+",,"myShape.getNumExits()
+",1
+initMonsters(),"
+check if description has monsters, adds monsters accordingly.
+*
+",,,"temp.setType()
+monsters.add()
+",4
+initStairs(),"
+checks if description has stairs, adds stairs accordingly.
+","stairs
+",,"temp.setType()
+stairs.add()
+",4
+initTraps(),"
+checks if description has traps, and adds traps accordingly.
+","traps
+",,"temp.chooseTrap
+traps.add
+",4
+initTreasure(),"checks if description has treasure, and adds treasure accordingly.
+","treasures
+",,"temp.chooseTreasure
+treasures.add
+",4
+randomHundredNumber(),returns number between 1-100,,,"r.nextInt()
+",4

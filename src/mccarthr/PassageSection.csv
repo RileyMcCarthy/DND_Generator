@@ -1,0 +1,71 @@
+Method,Description,Instance Variables,Class Methods,Other Methods,Line count
+PassageSection(),"
+sets up the 10 foot section with default settings.
+",,PasageSection(),,1
+PassageSection(final  theDescription),"
+sets up a specific passage based on the values sent in from.
+","description
+direction
+end
+","initFromDescription
+",,4
+Door getDoor(),"returns door in section
+","door
+",,,1
+Monster getMonster(),"returns monster in section
+","monster
+",,,1
+getDescription(),"returns description of section
+","
+","getDoor
+",""".
+desc.concat
+",8
+addMonster(final Monster theMonster),"adds monster to section
+","monster
+",,,1
+setDoor(final Door theDoor),"adds door to section
+","door
+",,,1
+setIndex(final  id),"sets the sections index
+","index
+",,,1
+getIndex(),"returns the sections index
+","index
+",,,1
+initFromDescription(),"
+creates passage items from description.",,"initMonsters
+initDoors
+initDeadEnd
+initPassageDirection
+",,4
+initMonsters(),"adds monsters from 
+keywords in description
+","monster
+description",,,2
+initDeadEnd(),"sets dead end from keywords
+in description
+","description
+","setEnd
+",,2
+setEnd(final  flag),sets section end to flag,"end
+direction
+",,,2
+initDoors(),"adds doors from keywords
+in description
+","door
+description
+",,"door.setDirection
+.contains
+door.setLocation
+door.setArchway
+",12
+initPassageDirection(),"sets direction from 
+keywords in description
+","direction
+description
+",,,6
+isEnd(),"returns if passageSection
+is dead end or ends
+","end
+",,,1
