@@ -22,6 +22,7 @@ public class Interface extends Application {
   @Override
     public void start(Stage stage) {
       stage.setTitle("supDudes");
+      
 
       stage.show();
     }
