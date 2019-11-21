@@ -137,7 +137,7 @@ public String getDescription() {
   String desc = "Chamber #" + index + " Information:\n";
   desc = desc.concat("    Chamber shape: " + myShape.getShape() + "\n");
   desc = desc.concat(getDimDescription());
-  desc = desc.concat(getDoorsDescription());
+  //desc = desc.concat(getDoorsDescription());
   desc = desc.concat(getContentsDescription());
   desc = desc.concat(getStairsDescription());
   desc = desc.concat(getTrapDescription());
@@ -167,7 +167,7 @@ private String getDoorsDescription() {
   String desc = "";
   desc = desc.concat("    Number of doors: " + (doors.size()) + "\n");
   for (int i = 0; i < doors.size(); i++) {
-    desc = desc.concat("    Door " + (i + 1) + " : \n");
+    desc = desc.concat("        -Door #" + (i + 1) + " : \n");
     //desc = desc.concat(doors.get(i).getDescription()); TODO use this for door description
   }
   return desc;

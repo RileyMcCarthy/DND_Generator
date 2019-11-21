@@ -74,14 +74,14 @@ return monster;
 **/
 public String getDescription() {
   String desc = "";
-  desc = desc.concat("                 - Passage section "
+  desc = desc.concat("    - Passage section "
   + getIndex() + ". " + description + " \n");
-  if (getDoor() != null) {
+/*  if (getDoor() != null) {
     //  desc = desc.concat("            " + getDoor().getDescription());
     desc = desc.concat("                - Door in passage goes to spaces:\n");
     desc = desc.concat("                    -Chamber #"
     + ((Chamber) (getDoor().getSpaces().get(0))).getIndex() + "\n");
-  }
+  }*/
   return desc;
 }
 

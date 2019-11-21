@@ -14,7 +14,6 @@ public class Controller {
     gui = theGui;
     level = new Level();
     level.generateLevel();
-    level.printDescription();
   }
 
   public ArrayList<Integer> getChamberIndexArray() {
@@ -44,6 +43,14 @@ public class Controller {
   public void passageSelectChange(String value) {
     int index = Integer.parseInt(value.replaceAll("\\D+",""));
     gui.updateDoors(level.getDoorsFromPassage(index));
+    gui.printDescription(level.getPassage(index).getDescription());
+  }
+
+  public void createDoorPopup(String value) {
+    int index = Integer.parseInt(value.replaceAll("\\D+",""));
+    if (index !=0) {
+      gui.updateDoorPopup(level.getDoor(index).getDescription());
+    }
   }
 
 }

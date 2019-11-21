@@ -52,7 +52,7 @@ public ArrayList<Door> getDoors() {
 *@param toAdd adds the passage section to the passageway.
 **/
 public void addPassageSection(final PassageSection toAdd) {
-  toAdd.setIndex(thePassage.size());
+  toAdd.setIndex(thePassage.size()+1);
   thePassage.add(toAdd);
   if (toAdd.getDoor() != null) {
     toAdd.getDoor().setOneSpace(this);
@@ -77,7 +77,7 @@ public void setDoor(final Door newDoor) {
 */
 @Override
 public String getDescription() {
-  String desc = "            - Passage #" + index + " with passage sections:\n";
+  String desc = "Passage #" + index + " with passage sections:\n";
   for (PassageSection section : thePassage) {
     desc = desc.concat(section.getDescription());
   }
@@ -110,7 +110,7 @@ public PassageSection getLatestPassage() {
 * generates the PassageSections for the passage.
 **/
 public void generatePassageSections() {
-  int sectionIndex = 0;
+  int sectionIndex = 1;
   PassageSection temp = new PassageSection(randomDescriptionGen());
   addPassageSection(temp);
   sectionIndex++;

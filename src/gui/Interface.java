@@ -32,6 +32,8 @@ import javafx.geometry.Pos;
 public class Interface extends Application {
 
   private Controller controller;
+
+  private Stage myStage;
   //top level layout
   private BorderPane root;
   //second level layouts
@@ -43,17 +45,18 @@ public class Interface extends Application {
   private ListView<String> chamberView;
   private ListView<String> passageView;
   private ComboBox doorBox;
+  //Popups
+  private Popup doorPane;
 
   @Override
     public void start(Stage stage) {
       controller = new Controller(this);
-
+      myStage = stage;
       root = setupLayout();
-
-      stage.setTitle("Dungeons and Dragons Level Generator");
+      myStage.setTitle("Dungeons and Dragons Level Generator");
       Scene scene = new Scene(root, 800,600);
-      stage.setScene(scene);
-      stage.show();
+      myStage.setScene(scene);
+      myStage.show();
     }
 
     private BorderPane setupLayout() {
@@ -96,9 +99,22 @@ public class Interface extends Application {
 
     private VBox setupRight() {
       right = new VBox();
+      right.setPrefWidth(150);
       doorBox = new ComboBox();
+      doorBox.setPrefWidth(150);
       doorBox.setValue("Doors");
+      setupDoorPopup("Door description");
+      Button showDesc = new Button("Show Door Description");
+      Button hideDesc = new Button("Hide Door Description");
+      showDesc.setOnAction((ActionEvent event) -> {
+            controller.createDoorPopup((String)doorBox.getValue());
+        });
+      hideDesc.setOnAction((ActionEvent event) -> {
+          doorPane.hide();
+      });
       right.getChildren().add(doorBox);
+      right.getChildren().add(showDesc);
+      right.getChildren().add(hideDesc);
       return right;
     }
 
@@ -116,12 +132,26 @@ public class Interface extends Application {
       return top;
     }
 
+    private void setupDoorPopup(String text) {
+    doorPane = new Popup();
+    TextArea desc = new TextArea(text);
+    doorPane.getContent().addAll(desc);
+    desc.setStyle(" -fx-background-color: white;");
+    desc.setMinWidth(300);
+    desc.setMinHeight(200);
+}
+
     public void updateDoors(ArrayList<Integer> indexes) {
       doorBox.getItems().removeAll(doorBox.getItems());
       for (Integer num : indexes) {
         doorBox.getItems().add("Door #"+num);
       }
       doorBox.getSelectionModel().selectFirst();
+    }
+
+    public void updateDoorPopup(String text) {
+      setupDoorPopup(text);
+      doorPane.show(myStage);
     }
 
     public void printDescription(String desc) {

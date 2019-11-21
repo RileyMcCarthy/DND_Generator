@@ -163,6 +163,15 @@ public class Level {
     return null;
   }
 
+  public Door getDoor(int doorIndex) {
+    for (Door door : doors) {
+      if (doorIndex == door.getIndex()) {
+        return door;
+      }
+    }
+    return null;
+  }
+
   public ArrayList<Integer> getDoorsFromChamber(int index) {
     ArrayList<Integer> doorIndexes = new ArrayList<Integer>();
     for (Chamber chamber : chambers) {
