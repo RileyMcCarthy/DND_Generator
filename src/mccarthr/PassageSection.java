@@ -75,7 +75,7 @@ return monster;
 public String getDescription() {
   String desc = "";
   desc = desc.concat("                 - Passage section "
-  + (getIndex() + 1) + ". " + description + " \n");
+  + getIndex() + ". " + description + " \n");
   if (getDoor() != null) {
     //  desc = desc.concat("            " + getDoor().getDescription());
     desc = desc.concat("                - Door in passage goes to spaces:\n");
@@ -119,7 +119,6 @@ public int getIndex() {
 **/
 private void initFromDescription() {
   initMonsters();
-  initDoors();
   initDeadEnd();
   initPassageDirection();
 }

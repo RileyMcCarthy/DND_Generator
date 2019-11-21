@@ -23,6 +23,7 @@ public class Level {
     arraylist of chambers in level.
   **/
   private ArrayList<Chamber> chambers;
+  private ArrayList<Passage> passages;
 
 
   /**
@@ -32,6 +33,7 @@ public class Level {
     doorConnections = new HashMap<Door, ArrayList<Chamber>>();
     doors = new ArrayList<Door>();
     chambers = new ArrayList<Chamber>();
+    passages = new ArrayList<Passage>();
   }
 
   /**
@@ -50,7 +52,7 @@ public class Level {
   }
 
   private void connectPassages() {
-    int passageIndex = 0;
+    int passageIndex = 1;
     for (Door door : doors) {
       for (Chamber targetChamber : doorConnections.get(door)) {
         Passage passage = generatePassage(passageIndex);
@@ -64,7 +66,7 @@ public class Level {
   }
 
   private void getDoors() {
-    int doorCount = 0;
+    int doorCount = 1;
     //getting doors from all chambers
     for (Chamber chamber : chambers) {
       for (Door door : chamber.getDoors()) {
@@ -72,12 +74,11 @@ public class Level {
         doors.add(door);
         doorCount++;
       }
-      doorCount = 0;
     }
   }
 
   private void initChambers() {
-    for (int i = 0; i < 5; i++) {
+    for (int i = 1; i < 6; i++) {
       Chamber temp;
       temp = generateChamber(i);
       chambers.add(temp);
@@ -121,6 +122,7 @@ public class Level {
     Passage passage = new Passage();
     passage.setIndex(index);
     passage.generatePassageSections();
+    passages.add(passage);
     return passage;
   }
 
@@ -133,6 +135,60 @@ public class Level {
     Chamber chamber = new Chamber();
     chamber.setIndex(indexChamber);
     return chamber;
+  }
+
+  public ArrayList<Chamber> getChambers() {
+    return chambers;
+  }
+
+  public ArrayList<Passage> getPassages() {
+    return passages;
+  }
+
+  public Chamber getChamber(int theIndex) {
+    for (Chamber chamber : chambers) {
+      if (chamber.getIndex() == theIndex) {
+        return chamber;
+      }
+    }
+    return null;
+  }
+
+  public Passage getPassage(int theIndex) {
+    for (Passage passage : passages) {
+      if (passage.getIndex() == theIndex) {
+        return passage;
+      }
+    }
+    return null;
+  }
+
+  public ArrayList<Integer> getDoorsFromChamber(int index) {
+    ArrayList<Integer> doorIndexes = new ArrayList<Integer>();
+    for (Chamber chamber : chambers) {
+      if (index == chamber.getIndex()) {
+        ArrayList<Door> doors = chamber.getDoors();
+        for (Door door : doors) {
+          doorIndexes.add(door.getIndex());
+        }
+        return doorIndexes;
+      }
+    }
+    return doorIndexes;
+  }
+
+  public ArrayList<Integer> getDoorsFromPassage(int index) {
+    ArrayList<Integer> doorIndexes = new ArrayList<Integer>();
+    for (Passage passage : passages) {
+      if (index == passage.getIndex()) {
+        ArrayList<Door> doors = passage.getDoors();
+        for (Door door : doors) {
+          doorIndexes.add(door.getIndex());
+        }
+        return doorIndexes;
+      }
+    }
+    return doorIndexes;
   }
 
   /**

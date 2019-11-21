@@ -168,7 +168,7 @@ private String getDoorsDescription() {
   desc = desc.concat("    Number of doors: " + (doors.size()) + "\n");
   for (int i = 0; i < doors.size(); i++) {
     desc = desc.concat("    Door " + (i + 1) + " : \n");
-    desc = desc.concat(doors.get(i).getDescription());
+    //desc = desc.concat(doors.get(i).getDescription()); TODO use this for door description
   }
   return desc;
 }
@@ -249,7 +249,7 @@ private void initContents() {
 **/
 private void initDoors(final int numDoors) {
   doors = new ArrayList<Door>();
-  for (int i = 0; i < numDoors; i++) {
+  for (int i = 1; i <= numDoors; i++) {
     Door temp = new Door();
     temp.setIndex(i);
     temp.setOneSpace(this);
