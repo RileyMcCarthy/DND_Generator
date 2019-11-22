@@ -3,6 +3,8 @@ package mccarthr;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import dnd.models.Trap;
+import dnd.models.Monster;
 
 /**
 *passage objec that holds passagesections.
@@ -72,6 +74,18 @@ public void setDoor(final Door newDoor) {
   }
 }
 
+public ArrayList<Monster> getMonsters(){
+  ArrayList<Monster> temp = new ArrayList<Monster>();
+  for(PassageSection section : thePassage) {
+    ArrayList<Monster> secMonsters = new ArrayList<Monster>();
+    secMonsters = section.getMonsters();
+    for (Monster monster : secMonsters) {
+      temp.add(monster);
+    }
+  }
+  return temp;
+}
+
 /**
 * @return the description of the passage.
 */
@@ -106,14 +120,30 @@ public PassageSection getLatestPassage() {
   return thePassage.get(thePassage.size() - 1);
 }
 
+public void removeMonster(String desc) {
+  for (PassageSection sec : thePassage) {
+    ArrayList<Monster> temp = sec.getMonsters();
+    for (Monster mon : temp) {
+      if (desc.equals(mon.getDescription())) {
+        sec.removeMonster(mon);
+        break;
+      }
+    }
+  }
+}
+
+public void addMonster(int roll) {
+  Monster temp = new Monster();
+  temp.setType(roll);
+  getLatestPassage().addMonster(temp);
+}
+
 /**
 * generates the PassageSections for the passage.
 **/
 public void generatePassageSections() {
-  int sectionIndex = 1;
   PassageSection temp = new PassageSection(randomDescriptionGen());
   addPassageSection(temp);
-  sectionIndex++;
   temp = new PassageSection("passage ends in Door to a Chamber");
   addPassageSection(temp);
 }
@@ -133,24 +163,14 @@ public void setIndex(final int theIndex) {
 }
 
 /**
-* @return if while loop should exit.
-**/
-private boolean generationExit() {
-  if (getLatestPassage() == null) {
-    return true;
-  }
-  return getLatestPassage().isEnd();
-}
-
-/**
 * @return random description of PassageSection from table in A2.
 */
 private String randomDescriptionGen() {
   Random r = new Random();
   int low = 0;
-  int high = 2;
+  int high = 4;
   int roll = r.nextInt(high - low) + low;
-  ArrayList<String> table = new ArrayList<String>();
+  ArrayList<String> table;
   table = generatePassageTable();
   return table.get(roll);
   }
@@ -160,6 +180,7 @@ private String randomDescriptionGen() {
     passageTable.add("passage goes straight for 10 ft");
     passageTable.add("passage turns to left and continues for 10 ft");
     passageTable.add("passage turns to right and continues for 10 ft");
+    passageTable.add("Monster!,passage goes straight for 10 ft");
     return passageTable;
   }
 }

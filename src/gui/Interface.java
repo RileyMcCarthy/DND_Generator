@@ -28,6 +28,7 @@ import javafx.collections.ObservableList;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.TextField;
 
 public class Interface extends Application {
 
@@ -42,11 +43,11 @@ public class Interface extends Application {
   private ToolBar top;
   private TextArea bottom;
   //third level layouts
-  private ListView<String> chamberView;
-  private ListView<String> passageView;
+  private ListView<String> spaceView;
   private ComboBox doorBox;
   //Popups
   private Popup doorPane;
+  private Popup editPane;
 
   @Override
     public void start(Stage stage) {
@@ -72,28 +73,27 @@ public class Interface extends Application {
       left = new VBox();
       left.setPadding(new Insets(5));
       left.setAlignment(Pos.CENTER);
-      chamberView = new ListView<String>();
-      passageView = new ListView<String>();
+      spaceView = new ListView<String>();
       ArrayList<Integer> chamberIndexes = controller.getChamberIndexArray();
       ArrayList<Integer> passageIndexes = controller.getPassageIndexArray();
       for (Integer num : chamberIndexes) {
-        chamberView.getItems().add("Chamber #"+num);
+        spaceView.getItems().add("Chamber #"+num);
       }
       for (Integer num : passageIndexes) {
-        passageView.getItems().add("Passage #"+num);
+        spaceView.getItems().add("Passage #"+num);
       }
-      chamberView.getSelectionModel().selectedItemProperty().addListener((ov, old_val, new_val) -> {
-        controller.chamberSelectChange(new_val);
+      spaceView.getSelectionModel().selectedItemProperty().addListener((ov, old_val, new_val) -> {
+        controller.spaceSelectChange(new_val);
       });
-
-      passageView.getSelectionModel().selectedItemProperty().addListener((ov, old_val, new_val) -> {
-        controller.passageSelectChange(new_val);
-      });
+      Button edit = new Button("Edit");
+      edit.setOnAction((ActionEvent event) -> {
+            controller.createEditPopup(spaceView.getSelectionModel().getSelectedItem());
+        });
+      edit.setPrefWidth(150);
       left.setPrefWidth(150);
-      left.getChildren().add(new Label("Chambers"));
-      left.getChildren().add(chamberView);
-      left.getChildren().add(new Label("Passages"));
-      left.getChildren().add(passageView);
+      left.getChildren().add(new Label("Spaces"));
+      left.getChildren().add(spaceView);
+      left.getChildren().add(edit);
       return left;
     }
 
@@ -112,6 +112,8 @@ public class Interface extends Application {
       hideDesc.setOnAction((ActionEvent event) -> {
           doorPane.hide();
       });
+      showDesc.setPrefWidth(150);
+      hideDesc.setPrefWidth(150);
       right.getChildren().add(doorBox);
       right.getChildren().add(showDesc);
       right.getChildren().add(hideDesc);
@@ -133,13 +135,60 @@ public class Interface extends Application {
     }
 
     private void setupDoorPopup(String text) {
-    doorPane = new Popup();
-    TextArea desc = new TextArea(text);
-    doorPane.getContent().addAll(desc);
-    desc.setStyle(" -fx-background-color: white;");
-    desc.setMinWidth(300);
-    desc.setMinHeight(200);
-}
+      if (doorPane == null) {
+        doorPane = new Popup();
+      }else {
+        doorPane.getContent().removeAll(doorPane.getContent());
+      }
+
+      TextArea desc = new TextArea(text);
+      doorPane.getContent().add(desc);
+      desc.setStyle(" -fx-background-color: white;");
+      desc.setMinWidth(300);
+      desc.setMinHeight(200);
+    }
+
+    private void setupEditPopup(ArrayList<String> text) {
+      if (editPane != null) {
+        editPane.getContent().clear();
+      }else {
+        editPane = new Popup();
+      }
+      TextField monsterEntry = new TextField("75");
+      HBox hbox = new HBox();
+      VBox left = new VBox();
+      ListView<String> right = new ListView<String>();
+      int id = 1;
+      for (String str : text) {
+        right.getItems().add(str);
+        id++;
+      }
+      Button add = new Button("Add Monster");
+      add.setOnAction((ActionEvent event) -> {
+          String temp = monsterEntry.getCharacters().toString();
+          int roll = 30;
+          try {
+            roll = Integer.parseInt(temp);
+          } catch (NumberFormatException e) {
+            roll = 30;
+          }
+          controller.addMonster(spaceView.getSelectionModel().getSelectedItem(), roll);
+      });
+      Button remove = new Button("Remove Monster");
+      remove.setOnAction((ActionEvent event) -> {
+          controller.removeMonster(spaceView.getSelectionModel().getSelectedItem(), right.getSelectionModel().getSelectedItem());
+      });
+
+      monsterEntry.setPrefColumnCount(1);
+      left.getChildren().add(add);
+      left.getChildren().add(monsterEntry);
+      left.getChildren().add(remove);
+      hbox.setMinWidth(500);
+      hbox.setMinHeight(300);
+      hbox.getChildren().add(left);
+      hbox.getChildren().add(right);
+      editPane.getContent().add(hbox);
+    }
 
     public void updateDoors(ArrayList<Integer> indexes) {
       doorBox.getItems().removeAll(doorBox.getItems());
@@ -152,6 +201,11 @@ public class Interface extends Application {
     public void updateDoorPopup(String text) {
       setupDoorPopup(text);
       doorPane.show(myStage);
+    }
+
+    public void updateEditPopup(ArrayList<String> text) {
+      setupEditPopup(text);
+      editPane.show(myStage);
     }
 
     public void printDescription(String desc) {

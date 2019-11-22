@@ -101,8 +101,10 @@ public ArrayList<Door> getDoors() {
 /**
 *@param theMonster monster to add to the chamber.
 **/
-public void addMonster(final Monster theMonster) {
-  monsters.add(theMonster);
+public void addMonster(final int roll) {
+  Monster temp = new Monster();
+  temp.setType(roll);
+  monsters.add(temp);
 }
 
 /**
@@ -253,6 +255,15 @@ private void initDoors(final int numDoors) {
     Door temp = new Door();
     temp.setIndex(i);
     temp.setOneSpace(this);
+  }
+}
+
+public void removeMonster(String desc) {
+  for (Monster mons : monsters) {
+    if (desc.equals(mons.getDescription())) {
+      monsters.remove(mons);
+      break;
+    }
   }
 }
 

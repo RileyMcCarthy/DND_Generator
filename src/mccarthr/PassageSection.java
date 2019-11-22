@@ -2,6 +2,9 @@ package mccarthr;
 
 import dnd.models.Monster;
 import dnd.models.Exit;
+import dnd.models.Trap;
+import java.util.ArrayList;
+import dnd.die.Percentile;
 
 /**
 *Represents a 10 ft section of passageway.
@@ -11,7 +14,8 @@ public class PassageSection {
   /**
   **monster object in section.
   **/
-  private Monster monster;
+  private ArrayList<Monster> monsters;
+  private ArrayList<Trap> traps;
   /**
   **door object in section.
   **/
@@ -36,6 +40,7 @@ public class PassageSection {
   *index of section in passage.
   **/
   private int index;
+  private Percentile die;
 
 /**
 * sets up the 10 foot section with default settings.
@@ -52,6 +57,9 @@ public PassageSection(final String theDescription) {
   description = theDescription;
   direction = "\0";
   end = false;
+  monsters = new ArrayList<Monster>();
+  traps = new ArrayList<Trap>();
+  die = new Percentile();
   initFromDescription();
 }
 
@@ -65,8 +73,8 @@ public Door getDoor() {
 /**
 * @return the monster that is in the passage section, if there is one.
 **/
-private Monster getMonster() {
-return monster;
+public ArrayList<Monster> getMonsters() {
+return monsters;
 }
 
 /**
@@ -89,8 +97,29 @@ public String getDescription() {
 /**
 * @param theMonster adds monster to section.
 **/
-private void addMonster(final Monster theMonster) {
-  monster = theMonster;
+public void addMonster(final Monster theMonster) {
+  monsters.add(theMonster);
+}
+
+/**
+* @param theTrap adds trap to section.
+**/
+public void addTrap(final Trap theTrap) {
+  traps.add(theTrap);
+}
+
+/**
+* @param theMonster removes monster.
+**/
+public void removeMonster(final Monster theMonster) {
+  monsters.remove(theMonster);
+}
+
+/**
+* @param theTrap removes trap.
+**/
+public void removeTrap(final Trap theTrap) {
+  traps.remove(theTrap);
 }
 
 /**
@@ -125,7 +154,9 @@ private void initFromDescription() {
 
 private void initMonsters() {
   if (description.toLowerCase().contains("monster")) {
-    monster = new Monster();
+    Monster temp = new Monster();
+    temp.setType(die.roll());
+    monsters.add(temp);
   }
 }
 
