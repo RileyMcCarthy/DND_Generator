@@ -14,7 +14,7 @@ import dnd.exceptions.UnusualShapeException;
 /**
 * chamber class that can generate a random chamber.
 **/
-public class Chamber extends Space {
+public class Chamber extends Space implements java.io.Serializable {
 
   /**
   * contents of the chamber.
@@ -51,7 +51,7 @@ public class Chamber extends Space {
   /**
   * die from 1-20.
   **/
-  private D20 die20;
+  private transient D20 die20;
 
 /**
 * this is the chamber contructor that init chamber.
@@ -178,11 +178,10 @@ private String getDoorsDescription() {
 private String getContentsDescription() {
   String desc = "Chamber contents: "
   + myContents.getDescription() + "\n";
-  if (monsters.size() != 0) {
-    desc = desc.concat("    Monsters: \n        - They're between "
-    + monsters.get(0).getMinNum()
-    + "-" + monsters.get(0).getMaxNum() + " Monsters type: "
-    + monsters.get(0).getDescription() + "\n");
+  if (monsters.size() !=0)
+    desc = desc.concat("    Monsters: \n");
+  for (Monster mon : monsters) {
+    desc = desc.concat("        - Monster type: " + mon.getDescription() + "\n");
   }
   return desc;
 }

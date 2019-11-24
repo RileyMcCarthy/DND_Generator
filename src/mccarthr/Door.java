@@ -10,7 +10,7 @@ import dnd.die.D20;
 *door object that contains properties.
 * of door, and spaces that it connects.
 **/
-public class Door {
+public class Door implements java.io.Serializable {
 
   /**
   * trap instance for door.
@@ -19,7 +19,7 @@ public class Door {
   /**
   * trap instance for door.
   **/
-  private Exit exit;
+  private transient Exit exit;
 
   /**
   * instance for door being trapped.
@@ -57,7 +57,7 @@ public class Door {
   /**
   * die from 1-20.
   **/
-  private D20 die20;
+  private transient D20 die20;
 
 /**
 * door constructor that inits and set defults.

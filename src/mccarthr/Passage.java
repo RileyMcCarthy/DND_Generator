@@ -9,7 +9,7 @@ import dnd.models.Monster;
 /**
 *passage objec that holds passagesections.
 **/
-public class Passage extends Space {
+public class Passage extends Space implements java.io.Serializable{
 
 /**
 *list of passage sections.

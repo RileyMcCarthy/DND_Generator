@@ -9,7 +9,7 @@ import dnd.die.Percentile;
 /**
 *Represents a 10 ft section of passageway.
 **/
-public class PassageSection {
+public class PassageSection implements java.io.Serializable {
 
   /**
   **monster object in section.
@@ -40,7 +40,7 @@ public class PassageSection {
   *index of section in passage.
   **/
   private int index;
-  private Percentile die;
+  private transient Percentile die;
 
 /**
 * sets up the 10 foot section with default settings.
@@ -74,7 +74,7 @@ public Door getDoor() {
 * @return the monster that is in the passage section, if there is one.
 **/
 public ArrayList<Monster> getMonsters() {
-return monsters;
+  return monsters;
 }
 
 /**
@@ -84,6 +84,9 @@ public String getDescription() {
   String desc = "";
   desc = desc.concat("    - Passage section "
   + getIndex() + ". " + description + " \n");
+  for (Monster monster : monsters) {
+    desc = desc.concat("        -Monster: "+monster.getDescription()+"\n");
+  }
 /*  if (getDoor() != null) {
     //  desc = desc.concat("            " + getDoor().getDescription());
     desc = desc.concat("                - Door in passage goes to spaces:\n");

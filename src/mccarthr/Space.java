@@ -3,7 +3,7 @@ package mccarthr;
 /**
 *abstract class space.
 **/
-public abstract class Space {
+public abstract class Space implements java.io.Serializable{
 
   /**
   * abstract method.

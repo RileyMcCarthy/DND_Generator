@@ -7,6 +7,7 @@ import mccarthr.Door;
 import java.util.ArrayList;
 import dnd.models.Trap;
 import dnd.models.Monster;
+import java.io.*;
 
 public class Controller {
   private Interface gui;
@@ -89,9 +90,11 @@ public class Controller {
     if (space.contains("Passage")) {
       Passage passage = level.getPassage(index);
       passage.removeMonster(desc);
+      gui.printDescription(passage.getDescription());
     }else {
       Chamber chamber = level.getChamber(index);
       chamber.removeMonster(desc);
+      gui.printDescription(chamber.getDescription());
     }
     createEditPopup(space);
   }
@@ -103,11 +106,50 @@ public class Controller {
     if (space.contains("Passage")) {
       Passage passage = level.getPassage(index);
       passage.addMonster(roll);
+      gui.printDescription(passage.getDescription());
     }else {
       Chamber chamber = level.getChamber(index);
       chamber.addMonster(roll);
+      gui.printDescription(chamber.getDescription());
     }
     createEditPopup(space);
+  }
+
+  public void saveLevel(String path) {
+    try {
+      FileOutputStream fileout = new FileOutputStream(path);
+      ObjectOutputStream out = new ObjectOutputStream(fileout);
+      out.writeObject(level);
+      out.close();
+      fileout.close();
+      System.out.println("SAVED!");
+    } catch(IOException i) {
+      i.printStackTrace();
+    }
+  }
+
+  public void openLevel(String path) {
+    boolean nope;
+    try {
+      FileInputStream filein = new FileInputStream(path);
+      ObjectInputStream in = new ObjectInputStream(filein);
+      level = (Level) in.readObject();
+      in.close();
+      filein.close();
+      nope = false;
+    }catch(IOException i) {
+      i.printStackTrace();
+      nope = true;
+    }catch(ClassNotFoundException c) {
+      c.printStackTrace();
+      nope = true;
+    }
+    if (!nope)
+      updateLevel();
+  }
+
+  private void updateLevel() {
+    gui.updateLeft();
   }
 
   private Integer parseNumber(String str) {

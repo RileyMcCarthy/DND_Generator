@@ -10,7 +10,7 @@ import java.util.Random;
 
 
 
-public class Level {
+public class Level implements java.io.Serializable{
   /**
   doors and target chambers hashmap.
   **/

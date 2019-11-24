@@ -29,6 +29,9 @@ import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
+import javafx.stage.DirectoryChooser;
+import java.io.*;
 
 public class Interface extends Application {
 
@@ -57,6 +60,8 @@ public class Interface extends Application {
       myStage.setTitle("Dungeons and Dragons Level Generator");
       Scene scene = new Scene(root, 800,600);
       myStage.setScene(scene);
+      String temp = this.getClass().getResource("/res/myStyle.css").toExternalForm();
+      scene.getStylesheets().add(temp);
       myStage.show();
     }
 
@@ -71,8 +76,7 @@ public class Interface extends Application {
 
     private VBox setupLeft() {
       left = new VBox();
-      left.setPadding(new Insets(5));
-      left.setAlignment(Pos.CENTER);
+      left.getStyleClass().add("vbox");
       spaceView = new ListView<String>();
       ArrayList<Integer> chamberIndexes = controller.getChamberIndexArray();
       ArrayList<Integer> passageIndexes = controller.getPassageIndexArray();
@@ -97,11 +101,24 @@ public class Interface extends Application {
       return left;
     }
 
+    public void updateLeft() {
+      spaceView.getItems().clear();
+      ArrayList<Integer> chamberIndexes = controller.getChamberIndexArray();
+      ArrayList<Integer> passageIndexes = controller.getPassageIndexArray();
+      for (Integer num : chamberIndexes) {
+        spaceView.getItems().add("Chamber #"+num);
+      }
+      for (Integer num : passageIndexes) {
+        spaceView.getItems().add("Passage #"+num);
+      }
+    }
+
     private VBox setupRight() {
       right = new VBox();
-      right.setPrefWidth(150);
+      right.getStyleClass().add("vbox");
+      right.setPrefWidth(200);
       doorBox = new ComboBox();
-      doorBox.setPrefWidth(150);
+      doorBox.setPrefWidth(200);
       doorBox.setValue("Doors");
       setupDoorPopup("Door description");
       Button showDesc = new Button("Show Door Description");
@@ -112,8 +129,8 @@ public class Interface extends Application {
       hideDesc.setOnAction((ActionEvent event) -> {
           doorPane.hide();
       });
-      showDesc.setPrefWidth(150);
-      hideDesc.setPrefWidth(150);
+      showDesc.setPrefWidth(300);
+      hideDesc.setPrefWidth(300);
       right.getChildren().add(doorBox);
       right.getChildren().add(showDesc);
       right.getChildren().add(hideDesc);
@@ -122,15 +139,35 @@ public class Interface extends Application {
 
     private TextArea setupBottom() {
       bottom = new TextArea();
+      bottom.getStyleClass().add("textfield");
       bottom.setEditable(false);
       return bottom;
     }
 
     private ToolBar setupToolBar() {
       top = new ToolBar();
-      top.getItems().add(new Button("New"));
-      top.getItems().add(new Button("Open"));
-      top.getItems().add(new Button("Save"));
+      Button open = new Button("Open");
+      open.setOnAction((ActionEvent event) -> {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select Save File");
+        File saveFile = fileChooser.showOpenDialog(myStage);
+        String path = saveFile.getPath();
+        if (path != null)
+          controller.openLevel(saveFile.getPath());
+      });
+      Button save = new Button("Save");
+      save.setOnAction((ActionEvent event) -> {
+        DirectoryChooser chooser = new DirectoryChooser();
+        chooser.setTitle("Select Save Directory");
+        File saveDir = chooser.showDialog(myStage);
+        String path = saveDir.getPath();
+        path = path.concat("/levelsave.sav");
+        System.out.println(path);
+        if (path != null)
+          controller.saveLevel(path);
+      });
+      top.getItems().add(open);
+      top.getItems().add(save);
       return top;
     }
 
@@ -178,11 +215,16 @@ public class Interface extends Application {
       remove.setOnAction((ActionEvent event) -> {
           controller.removeMonster(spaceView.getSelectionModel().getSelectedItem(), right.getSelectionModel().getSelectedItem());
       });
+      Button close = new Button("Close Popup");
+      close.setOnAction((ActionEvent event) -> {
+          editPane.hide();
+      });
 
       monsterEntry.setPrefColumnCount(1);
       left.getChildren().add(add);
       left.getChildren().add(monsterEntry);
       left.getChildren().add(remove);
+      left.getChildren().add(close);
       hbox.setMinWidth(500);
       hbox.setMinHeight(300);
       hbox.getChildren().add(left);
