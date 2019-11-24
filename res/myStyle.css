@@ -9,7 +9,7 @@
 }
 .vbox {
   -fx-background-color:#0f508b;
-  -fx-pref-width:200;
+  -fx-pref-width:200px;
   -fx-padding:5px;
   -fx-alignment:center;
   -fx-spacing:5px;
@@ -24,6 +24,10 @@
   -fx-border-width:4px;
   -fx-text-fill:black;
   -highlight-text-fill:red;
+}
+
+.list-cell:filled:selected {
+  -fx-text-fill: white;
 }
 
 .list-cell:filled:hover {
@@ -48,7 +52,11 @@
   -fx-background-color:#14a2f4;
 }
 
+.leftElements {
+  -fx-pref-width: 200px;
+}
+
 .label
 {
--fx-text-fill: black;
+-fx-text-fill: white;
 }

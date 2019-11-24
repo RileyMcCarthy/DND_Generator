@@ -45,6 +45,7 @@ public class Interface extends Application {
   private VBox right;
   private ToolBar top;
   private TextArea bottom;
+  private ChamberGrid centerLevel;
   //third level layouts
   private ListView<String> spaceView;
   private ComboBox doorBox;
@@ -71,6 +72,7 @@ public class Interface extends Application {
       border.setLeft(setupLeft());
       border.setRight(setupRight());
       border.setBottom(setupBottom());
+      border.setCenter(setupCenter());
       return border;
     }
 
@@ -93,8 +95,8 @@ public class Interface extends Application {
       edit.setOnAction((ActionEvent event) -> {
             controller.createEditPopup(spaceView.getSelectionModel().getSelectedItem());
         });
-      edit.setPrefWidth(150);
-      left.setPrefWidth(150);
+      edit.getStyleClass().add("leftElements");
+      left.getStyleClass().add("leftElements");
       left.getChildren().add(new Label("Spaces"));
       left.getChildren().add(spaceView);
       left.getChildren().add(edit);
@@ -113,10 +115,19 @@ public class Interface extends Application {
       }
     }
 
+    private ChamberGrid setupCenter() {
+      int width = 8;
+      int height = 8;
+      centerLevel = new ChamberGrid(root);
+      centerLevel.drawRectangle(6,4);
+      return centerLevel;
+    }
+
     private VBox setupRight() {
       right = new VBox();
       right.getStyleClass().add("vbox");
       right.setPrefWidth(200);
+      right.getStyleClass().add("leftElements");
       doorBox = new ComboBox();
       doorBox.setPrefWidth(200);
       doorBox.setValue("Doors");
