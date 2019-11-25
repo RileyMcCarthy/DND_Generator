@@ -9,6 +9,8 @@ import dnd.models.Trap;
 import dnd.models.Monster;
 import java.io.*;
 import dnd.models.Treasure;
+import javafx.collections.ObservableList;
+
 
 public class Controller {
   private Interface gui;
@@ -56,6 +58,17 @@ public class Controller {
       temp.add(passage.getIndex());
     }
     return temp;
+  }
+
+  public ArrayList<String> doorDescription(ObservableList<String> door) {
+    ArrayList<String> descriptions = new ArrayList<String>();
+    for(String str : door) {
+      int index = parseNumber(str);
+      if (index == -1)
+        break;
+      descriptions.add(level.getDoor(index).getDescription());
+    }
+    return descriptions;
   }
 
   public void spaceSelectChange(String value) {

@@ -48,7 +48,7 @@ public class Interface extends Application {
   private ChamberGrid centerLevel;
   //third level layouts
   private ListView<String> spaceView;
-  private ComboBox doorBox;
+  private ComboBox<String> doorBox;
   //Popups
   private Popup doorPane;
   private Popup editPane;
@@ -122,7 +122,6 @@ public class Interface extends Application {
       int width = 8;
       int height = 8;
       centerLevel = new ChamberGrid(root);
-      centerLevel.drawRectangle(6,4);
       return centerLevel;
     }
 
@@ -222,6 +221,40 @@ public class Interface extends Application {
 
     public void printDescription(String desc) {
       bottom.setText(desc);
+      updateDrawing(desc);
+    }
+
+    private void updateDrawing(String desc) {
+      if (desc.contains("Passage")) {
+
+      }else {
+        String findlength = "    Chamber Length: ";
+        String findwidth = "    Chamber Width: ";
+        String w,h;
+        try {
+          w = desc.substring(desc.indexOf(findlength) + findlength.length(), desc.indexOf('.',desc.indexOf("Chamber Length: ")) );
+          h = desc.substring(desc.indexOf(findwidth) + findwidth.length(), desc.indexOf(".",desc.indexOf("    Chamber Width: ")) );
+        }catch(StringIndexOutOfBoundsException e) {
+          w = "40";
+          h = "40";
+        }
+        int width = Integer.parseInt(w)/10 +2;
+        int height = Integer.parseInt(h)/10 +2;
+        centerLevel.initBackground();
+        centerLevel.drawRectangle(width,height);
+
+        ArrayList<String> doorDescriptions = controller.doorDescription(doorBox.getItems());
+        for (String str : doorDescriptions) {
+          if (str.contains("opposite wall")) {
+            System.out.println("door on oposite wall");
+          }else if (str.contains("right wall")) {
+            System.out.println("door on right wall");
+          }else {
+            System.out.println("door on left wall");
+            centerLevel.doorLeft();
+          }
+        }
+      }
     }
 
   public static void main(String[] args) {

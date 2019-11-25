@@ -162,8 +162,8 @@ private String getDimDescription() {
   String tmp2;
   String desc = "";
   try {
-    tmp1 = "    Chamber Length: " + myShape.getLength() + "\n";
-    tmp2 = "    Chamber Width: " + myShape.getWidth() + "\n";
+    tmp1 = "    Chamber Length: " + myShape.getLength() + ".\n";
+    tmp2 = "    Chamber Width: " + myShape.getWidth() + ".\n";
   } catch (UnusualShapeException e) {
     tmp1 = "    Chamber Length: Not Avaliable\n";
     tmp2 = "    Chamber Width: Not Avaliable\n";
