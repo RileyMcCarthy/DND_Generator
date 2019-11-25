@@ -18,6 +18,15 @@
   -fx-text-fill:black;
 }
 
+.exitButton {
+  -fx-pref-width:200px;
+}
+
+.hbox {
+  -fx-pref-width:500px;
+  -fx-pref-height:300px;
+}
+
 .textfield {
   -fx-font-weight: bold;
   -fx-border-color: black;

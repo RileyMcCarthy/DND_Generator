@@ -36,7 +36,10 @@ public class EditInterface {
     editStage = new Stage();
     editStage.setTitle("Edit Space");
     editStage.initModality(Modality.APPLICATION_MODAL);
+
     hbox = new HBox();
+
+    Scene scene = new Scene(hbox, 800,300);
 
     setupMonsterOptions();
     displayMonsters();
@@ -44,7 +47,6 @@ public class EditInterface {
     setupTreasureOptions();
     displayTreasures();
 
-    Scene scene = new Scene(hbox, 500,300);
     editStage.setScene(scene);
     showWindow();
   }

@@ -169,11 +169,10 @@ public class Interface extends Application {
       });
       Button save = new Button("Save");
       save.setOnAction((ActionEvent event) -> {
-        DirectoryChooser chooser = new DirectoryChooser();
-        chooser.setTitle("Select Save Directory");
-        File saveDir = chooser.showDialog(myStage);
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Select Save Location and name");
+        File saveDir = chooser.showSaveDialog(myStage);
         String path = saveDir.getPath();
-        path = path.concat("/levelsave.sav");
         System.out.println(path);
         if (path != null)
           controller.saveLevel(path);
