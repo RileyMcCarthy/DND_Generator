@@ -1,4 +1,4 @@
-/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+/*style for the root node of my application*/
 .root {
   -fx-font-family: "arial";
   fx-font-weight: bold;
@@ -7,6 +7,8 @@
   -fx-font-weight: bold;
   -fx-text-fill:black;
 }
+
+/*style for the vbox on my main window*/
 .vbox {
   -fx-background-color:#0f508b;
   -fx-pref-width:200px;
@@ -18,15 +20,18 @@
   -fx-text-fill:black;
 }
 
+/*style for the exit button*/
 .exitButton {
   -fx-pref-width:200px;
 }
 
+/*style for the hbox on my edit window*/
 .hbox {
   -fx-pref-width:500px;
   -fx-pref-height:300px;
 }
 
+/*style for the textfield in main window*/
 .textfield {
   -fx-font-weight: bold;
   -fx-border-color: black;
@@ -35,36 +40,43 @@
   -highlight-text-fill:red;
 }
 
+/*style when cell in listview is selected*/
 .list-cell:filled:selected {
   -fx-text-fill: white;
 }
 
+/*style when cell in listview is hovered over*/
 .list-cell:filled:hover {
     -fx-background-color: #14a2f4;
     -fx-text-fill: white;
 }
 
+/*style for defult listview cell*/
 .list-cell:filled {
   -fx-background-color: #287ac3;
   -fx-text-fill: black;
 }
 
+/*style for all buttons on main window*/
 .button
 {
   -fx-text-fill:black;
   -fx-background-color:#287ac3;
 }
 
+/*style for all buttons on main window when hovered over*/
 .button:hover
 {
   -fx-text-fill:black;
   -fx-background-color:#14a2f4;
 }
 
+/*style for nodes in the left size of main window*/
 .leftElements {
   -fx-pref-width: 200px;
 }
 
+/*defult style for all labels in main window*/
 .label
 {
 -fx-text-fill: white;
