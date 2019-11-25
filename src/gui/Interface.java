@@ -246,13 +246,20 @@ public class Interface extends Application {
         ArrayList<String> doorDescriptions = controller.doorDescription(doorBox.getItems());
         for (String str : doorDescriptions) {
           if (str.contains("opposite wall")) {
-            System.out.println("door on oposite wall");
+            centerLevel.doorOpposite();
           }else if (str.contains("right wall")) {
-            System.out.println("door on right wall");
+            centerLevel.doorRight();
           }else {
-            System.out.println("door on left wall");
             centerLevel.doorLeft();
           }
+        }
+        ArrayList<String> treasures = controller.getTreasureDescriptions(spaceView.getSelectionModel().getSelectedItem());
+        for (String str : treasures) {
+          centerLevel.addTreasure();
+        }
+        ArrayList<String> monsters = controller.getMonsterDescriptions(spaceView.getSelectionModel().getSelectedItem());
+        for (String str : monsters) {
+          centerLevel.addMonster();
         }
       }
     }
