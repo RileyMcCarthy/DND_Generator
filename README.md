@@ -1,6 +1,8 @@
 Riley McCarthy
 1054625
 
+Everything in this assignment was done by myself only.
+
 Optional:
   - Passage and Chamber View;
   - css style
