@@ -5,6 +5,7 @@ import dnd.models.Exit;
 import dnd.models.Trap;
 import java.util.ArrayList;
 import dnd.die.Percentile;
+import dnd.models.Treasure;
 
 /**
 *Represents a 10 ft section of passageway.
@@ -15,6 +16,7 @@ public class PassageSection implements java.io.Serializable {
   **monster object in section.
   **/
   private ArrayList<Monster> monsters;
+  private ArrayList<Treasure> treasures;
   private ArrayList<Trap> traps;
   /**
   **door object in section.
@@ -58,6 +60,7 @@ public PassageSection(final String theDescription) {
   direction = "\0";
   end = false;
   monsters = new ArrayList<Monster>();
+  treasures = new ArrayList<Treasure>();
   traps = new ArrayList<Trap>();
   die = new Percentile();
   initFromDescription();
@@ -78,6 +81,13 @@ public ArrayList<Monster> getMonsters() {
 }
 
 /**
+* @return the treasure that is in the passage section, if there is one.
+**/
+public ArrayList<Treasure> getTreasures() {
+  return treasures;
+}
+
+/**
 * @return the section description.
 **/
 public String getDescription() {
@@ -86,6 +96,9 @@ public String getDescription() {
   + getIndex() + ". " + description + " \n");
   for (Monster monster : monsters) {
     desc = desc.concat("        -Monster: "+monster.getDescription()+"\n");
+  }
+  for (Treasure treasure : treasures) {
+    desc = desc.concat("        -Treasure: "+treasure.getDescription()+"\n");
   }
 /*  if (getDoor() != null) {
     //  desc = desc.concat("            " + getDoor().getDescription());
@@ -105,6 +118,13 @@ public void addMonster(final Monster theMonster) {
 }
 
 /**
+* @param theTreasure adds treasure to section.
+**/
+public void addTreasure(final Treasure theTreasure) {
+  treasures.add(theTreasure);
+}
+
+/**
 * @param theTrap adds trap to section.
 **/
 public void addTrap(final Trap theTrap) {
@@ -116,6 +136,13 @@ public void addTrap(final Trap theTrap) {
 **/
 public void removeMonster(final Monster theMonster) {
   monsters.remove(theMonster);
+}
+
+/**
+* @param theTreasure removes treasure.
+**/
+public void removeTreasure(final Treasure theTreasure) {
+  treasures.remove(theTreasure);
 }
 
 /**

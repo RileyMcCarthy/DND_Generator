@@ -115,10 +115,19 @@ public ArrayList<Monster> getMonsters() {
 }
 
 /**
+* @return array of monsters in chamber.
+**/
+public ArrayList<Treasure> getTreasures() {
+  return treasures;
+}
+
+/**
 * @param theTreasure treasure to add to chamber.
 **/
-public void addTreasure(final Treasure theTreasure) {
-  treasures.add(theTreasure);
+public void addTreasure(int roll) {
+  Treasure temp = new Treasure();
+  temp.chooseTreasure(roll);
+  treasures.add(temp);
 }
 
 /**
@@ -206,9 +215,10 @@ private String getTrapDescription() {
 
 private String getTreasureDescription() {
   String desc = "";
-  if (treasures.size() != 0) {
-    desc = desc.concat("    Treasure: \n        - "
-    + treasures.get(0).getWholeDescription() + "\n");
+  if (treasures.size() != 0)
+    desc = desc.concat("    Treasure: \n");
+  for (Treasure treasure : treasures) {
+    desc = desc.concat("        - "+treasures.get(0).getDescription() + "\n");
   }
   return desc;
 }
@@ -261,6 +271,16 @@ public void removeMonster(String desc) {
   for (Monster mons : monsters) {
     if (desc.equals(mons.getDescription())) {
       monsters.remove(mons);
+      break;
+    }
+  }
+}
+
+
+public void removeTreasure(String desc) {
+  for (Treasure mons : treasures) {
+    if (desc.equals(mons.getDescription())) {
+      treasures.remove(mons);
       break;
     }
   }

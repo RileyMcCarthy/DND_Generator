@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Random;
 import dnd.models.Trap;
 import dnd.models.Monster;
+import dnd.models.Treasure;
 
 /**
 *passage objec that holds passagesections.
@@ -63,6 +64,15 @@ public void addPassageSection(final PassageSection toAdd) {
 }
 
 /**
+* @param theTreasure treasure to add to passage.
+**/
+public void addTreasure(int roll) {
+  Treasure temp = new Treasure();
+  temp.chooseTreasure(roll);
+  getLatestPassage().addTreasure(temp);
+}
+
+/**
 * @param newDoor add a door connection to the current Passage Section.
 **/
 @Override
@@ -81,6 +91,18 @@ public ArrayList<Monster> getMonsters(){
     secMonsters = section.getMonsters();
     for (Monster monster : secMonsters) {
       temp.add(monster);
+    }
+  }
+  return temp;
+}
+
+public ArrayList<Treasure> getTreasures(){
+  ArrayList<Treasure> temp = new ArrayList<Treasure>();
+  for(PassageSection section : thePassage) {
+    ArrayList<Treasure> secTreasure = new ArrayList<Treasure>();
+    secTreasure = section.getTreasures();
+    for (Treasure treasure : secTreasure) {
+      temp.add(treasure);
     }
   }
   return temp;
@@ -126,6 +148,18 @@ public void removeMonster(String desc) {
     for (Monster mon : temp) {
       if (desc.equals(mon.getDescription())) {
         sec.removeMonster(mon);
+        break;
+      }
+    }
+  }
+}
+
+public void removeTreasure(String desc) {
+  for (PassageSection sec : thePassage) {
+    ArrayList<Treasure> temp = sec.getTreasures();
+    for (Treasure mon : temp) {
+      if (desc.equals(mon.getDescription())) {
+        sec.removeTreasure(mon);
         break;
       }
     }

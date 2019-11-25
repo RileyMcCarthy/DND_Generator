@@ -8,15 +8,36 @@ import java.util.ArrayList;
 import dnd.models.Trap;
 import dnd.models.Monster;
 import java.io.*;
+import dnd.models.Treasure;
 
 public class Controller {
   private Interface gui;
   private Level level;
+  private ArrayList<String> monsterTable;
+  private ArrayList<String> treasureTable;
 
   public Controller(Interface theGui) {
     gui = theGui;
     level = new Level();
     level.generateLevel();
+    initMonsterTable();
+    initTreasureTable();
+  }
+
+  private void initMonsterTable() {
+    monsterTable = level.getAllMonsters();
+  }
+
+  public ArrayList<String> getMonsterTable() {
+    return monsterTable;
+  }
+
+  private void initTreasureTable() {
+    treasureTable = level.getAllTreasures();
+  }
+
+  public ArrayList<String> getTreasureTable() {
+    return treasureTable;
   }
 
   public ArrayList<Integer> getChamberIndexArray() {
@@ -57,10 +78,10 @@ public class Controller {
     gui.updateDoorPopup(level.getDoor(index).getDescription());
   }
 
-  public void createEditPopup(String value) {
+  public ArrayList<String> getMonsterDescriptions(String value) {
     int index = parseNumber(value);
     if (index == -1)
-      return;
+      return null;
     if (value.contains("Passage")) {
       Passage passage = level.getPassage(index);
       ArrayList<Monster> monsters = passage.getMonsters();
@@ -68,7 +89,7 @@ public class Controller {
       for (Monster monster : monsters) {
         mDesc.add(monster.getDescription());
       }
-      gui.updateEditPopup(mDesc);
+      return mDesc;
     }else {
       Chamber chamber = level.getChamber(index);
       ArrayList<Monster> monsters = chamber.getMonsters();
@@ -76,8 +97,50 @@ public class Controller {
       for (Monster monster : monsters) {
         mDesc.add(monster.getDescription());
       }
-      gui.updateEditPopup(mDesc);
+      return mDesc;
     }
+  }
+
+  public ArrayList<String> getTreasureDescriptions(String value) {
+    int index = parseNumber(value);
+    if (index == -1)
+      return null;
+    if (value.contains("Passage")) {
+      Passage passage = level.getPassage(index);
+      ArrayList<Treasure> treasures = passage.getTreasures();
+      ArrayList<String> tDesc = new ArrayList<String>();
+      for (Treasure treasure : treasures) {
+        tDesc.add(treasure.getDescription());
+      }
+      return tDesc;
+    }else {
+      Chamber chamber = level.getChamber(index);
+      ArrayList<Treasure> treasures = chamber.getTreasures();
+      ArrayList<String> tDesc = new ArrayList<String>();
+      for (Treasure treasure : treasures) {
+        tDesc.add(treasure.getDescription());
+      }
+      return tDesc;
+    }
+  }
+
+  public void removeTreasure(String space, String desc) {
+    if (space == null) {
+      return;
+    }
+    int index = parseNumber(space);
+    if (index == -1)
+      return;
+    if (space.contains("Passage")) {
+      Passage passage = level.getPassage(index);
+      passage.removeTreasure(desc);
+      gui.printDescription(passage.getDescription());
+    }else {
+      Chamber chamber = level.getChamber(index);
+      chamber.removeTreasure(desc);
+      gui.printDescription(chamber.getDescription());
+    }
+    gui.setupEditPopup();
   }
 
   public void removeMonster(String space, String desc) {
@@ -96,13 +159,14 @@ public class Controller {
       chamber.removeMonster(desc);
       gui.printDescription(chamber.getDescription());
     }
-    createEditPopup(space);
+    gui.setupEditPopup();
   }
 
-  public void addMonster(String space, int roll) {
+  public void addMonster(String space, String desc) {
     int index = parseNumber(space);
     if (index == -1)
       return;
+    int roll = level.getMonsterRoll(desc);
     if (space.contains("Passage")) {
       Passage passage = level.getPassage(index);
       passage.addMonster(roll);
@@ -112,7 +176,24 @@ public class Controller {
       chamber.addMonster(roll);
       gui.printDescription(chamber.getDescription());
     }
-    createEditPopup(space);
+    gui.setupEditPopup();
+  }
+
+  public void addTreasure(String space, String desc) {
+    int index = parseNumber(space);
+    if (index == -1)
+      return;
+    int roll = level.getTreasureRoll(desc);
+    if (space.contains("Passage")) {
+      Passage passage = level.getPassage(index);
+      passage.addTreasure(roll);
+      gui.printDescription(passage.getDescription());
+    }else {
+      Chamber chamber = level.getChamber(index);
+      chamber.addTreasure(roll);
+      gui.printDescription(chamber.getDescription());
+    }
+    gui.setupEditPopup();
   }
 
   public void saveLevel(String path) {

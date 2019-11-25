@@ -236,12 +236,7 @@ public class Door implements java.io.Serializable {
     String desc = "";
     desc = desc.concat("        -Door connects to spaces:\n");
     for (Space space : spaces) {
-      //TODO make this description of space
-      if (check != 0) {
         desc = desc.concat(space.getDescription());
-      } else {
-        check++;
-      }
     }
     return desc;
   }

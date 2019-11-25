@@ -52,6 +52,9 @@ public class Interface extends Application {
   //Popups
   private Popup doorPane;
   private Popup editPane;
+  //new Windows
+  private EditInterface editWindow;
+
 
   @Override
     public void start(Stage stage) {
@@ -93,7 +96,7 @@ public class Interface extends Application {
       });
       Button edit = new Button("Edit");
       edit.setOnAction((ActionEvent event) -> {
-            controller.createEditPopup(spaceView.getSelectionModel().getSelectedItem());
+            setupEditPopup();
         });
       edit.getStyleClass().add("leftElements");
       left.getStyleClass().add("leftElements");
@@ -129,7 +132,6 @@ public class Interface extends Application {
       right.setPrefWidth(200);
       right.getStyleClass().add("leftElements");
       doorBox = new ComboBox();
-      doorBox.setPrefWidth(200);
       doorBox.setValue("Doors");
       setupDoorPopup("Door description");
       Button showDesc = new Button("Show Door Description");
@@ -196,51 +198,13 @@ public class Interface extends Application {
       desc.setMinHeight(200);
     }
 
-    private void setupEditPopup(ArrayList<String> text) {
-      if (editPane != null) {
-        editPane.getContent().clear();
+    public void setupEditPopup() {
+      if (editWindow != null) {
+        editWindow.update(spaceView.getSelectionModel().getSelectedItem());
       }else {
-        editPane = new Popup();
+        editWindow = new EditInterface(spaceView.getSelectionModel().getSelectedItem(),controller);
       }
-      TextField monsterEntry = new TextField("75");
-      HBox hbox = new HBox();
-      VBox left = new VBox();
-      ListView<String> right = new ListView<String>();
-      int id = 1;
-      for (String str : text) {
-        right.getItems().add(str);
-        id++;
-      }
-      Button add = new Button("Add Monster");
-      add.setOnAction((ActionEvent event) -> {
-          String temp = monsterEntry.getCharacters().toString();
-          int roll = 30;
-          try {
-            roll = Integer.parseInt(temp);
-          } catch (NumberFormatException e) {
-            roll = 30;
-          }
-          controller.addMonster(spaceView.getSelectionModel().getSelectedItem(), roll);
-      });
-      Button remove = new Button("Remove Monster");
-      remove.setOnAction((ActionEvent event) -> {
-          controller.removeMonster(spaceView.getSelectionModel().getSelectedItem(), right.getSelectionModel().getSelectedItem());
-      });
-      Button close = new Button("Close Popup");
-      close.setOnAction((ActionEvent event) -> {
-          editPane.hide();
-      });
-
-      monsterEntry.setPrefColumnCount(1);
-      left.getChildren().add(add);
-      left.getChildren().add(monsterEntry);
-      left.getChildren().add(remove);
-      left.getChildren().add(close);
-      hbox.setMinWidth(500);
-      hbox.setMinHeight(300);
-      hbox.getChildren().add(left);
-      hbox.getChildren().add(right);
-      editPane.getContent().add(hbox);
+      editWindow.showWindow();
     }
 
     public void updateDoors(ArrayList<Integer> indexes) {
@@ -254,11 +218,6 @@ public class Interface extends Application {
     public void updateDoorPopup(String text) {
       setupDoorPopup(text);
       doorPane.show(myStage);
-    }
-
-    public void updateEditPopup(ArrayList<String> text) {
-      setupEditPopup(text);
-      editPane.show(myStage);
     }
 
     public void printDescription(String desc) {

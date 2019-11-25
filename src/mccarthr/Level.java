@@ -3,6 +3,8 @@ package mccarthr;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import dnd.models.Monster;
+import dnd.models.Treasure;
 
 /**
 *generates the random level.
@@ -49,6 +51,62 @@ public class Level implements java.io.Serializable{
     //connect door space to passage,
     //and connect other end of passage to target door (random)
     connectPassages();
+  }
+
+  public ArrayList<String> getAllMonsters() {
+    ArrayList<String> monsterDescriptions = new ArrayList<String>();
+    for (int i=1;i<100;i++) {
+      Monster temp = new Monster();
+      temp.setType(i);
+      int found = 0;
+      for (String str : monsterDescriptions) {
+        if (str == temp.getDescription()) {
+          found = 1;
+        }
+      }
+      if (found == 0)
+      monsterDescriptions.add(temp.getDescription());
+    }
+    return monsterDescriptions;
+  }
+
+  public ArrayList<String> getAllTreasures() {
+    ArrayList<String> treasureDescriptions = new ArrayList<String>();
+    for (int i=1;i<100;i++) {
+      Treasure temp = new Treasure();
+      temp.chooseTreasure(i);
+      int found = 0;
+      for (String str : treasureDescriptions) {
+        if (str == temp.getDescription()) {
+          found = 1;
+        }
+      }
+      if (found == 0)
+      treasureDescriptions.add(temp.getDescription());
+    }
+    return treasureDescriptions;
+  }
+
+  public Integer getMonsterRoll(String desc) {
+    for (int i=1;i<100;i++) {
+      Monster temp = new Monster();
+      temp.setType(i);
+      if (desc == temp.getDescription()) {
+        return i;
+      }
+    }
+    return 1;
+  }
+
+  public Integer getTreasureRoll(String desc) {
+    for (int i=1;i<100;i++) {
+      Treasure temp = new Treasure();
+      temp.chooseTreasure(i);
+      if (desc == temp.getDescription()) {
+        return i;
+      }
+    }
+    return 1;
   }
 
   private void connectPassages() {
