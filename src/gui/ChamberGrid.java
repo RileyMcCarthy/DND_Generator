@@ -22,6 +22,8 @@ public class ChamberGrid extends GridPane {
   int doorr;
   int dooro;
   int treasurec;
+  int monsterc;
+  int passagec;
 
   public ChamberGrid(BorderPane border) {
     getTextures();
@@ -30,6 +32,8 @@ public class ChamberGrid extends GridPane {
     doorr=0;
     dooro=0;
     treasurec=0;
+    passagec=0;
+    monsterc=0;
   }
 
   public void doorLeft() {
@@ -64,6 +68,17 @@ public class ChamberGrid extends GridPane {
     cell.setGraphic(door);
     int newstart = startw+(maxw/2)+dooro;
     add(cell,newstart,starth);
+    dooro++;
+  }
+
+  public void doorEntrance() {
+    Label cell = new Label();
+    ImageView door = new ImageView(doorimage);
+    door.setFitWidth(50);
+    door.setFitHeight(50);
+    door.setRotate(door.getRotate() + 180);
+    cell.setGraphic(door);
+    add(cell,startw+maxw/2,starth+maxh-1);
     dooro++;
   }
 
@@ -116,6 +131,79 @@ public class ChamberGrid extends GridPane {
     }
   }
 
+  public void drawRectanglePassage(String str) {
+    int w =0;
+    int h=0;
+    int dw=0;
+    int dh=0;
+    ImageView door = new ImageView(doorimage);
+    if (str.equals("right")) {
+      starth=1;
+      startw=0;
+      w=3;
+      h=5;
+      dw=1;
+      dh=1;
+    }else if (str.equals("left")) {
+      starth=3;
+      startw=0;
+      w=3;
+      h=5;
+      dw=1;
+      dh=7;
+      door.setRotate(door.getRotate() + 180);
+    }else if (str.equals("end")) {
+      w=5;
+      h=3;
+      starth=8/2 - h/2;
+      startw=3;
+      dw=7;
+      dh=starth+1;
+      door.setRotate(door.getRotate() + 90);
+    }else {
+      w=5;
+      h=3;
+      starth = 8/2 - h/2;
+      startw=0;
+      dw=0;
+      dh=starth+1;
+      door.setRotate(door.getRotate() - 90);
+    }
+    maxw = w;
+    maxh = h;
+    for (int i=0;i<w;i++) {
+      for (int j=0;j<h;j++) {
+        addFloorCell(i+startw, j+starth);
+      }
+    }
+    Label cell = new Label();
+    door.setFitWidth(50);
+    door.setFitHeight(50);
+    cell.setGraphic(door);
+    add(cell,dw,dh);
+    passagec++;
+  }
+
+  public void treasurePassage() {
+    Label cell = new Label();
+    ImageView tresure = new ImageView(treasureimage);
+    tresure.setFitWidth(50);
+    tresure.setFitHeight(50);
+    cell.setGraphic(tresure);
+    add(cell,6-treasurec*2,8/2 - 3/2+1);
+    treasurec++;
+  }
+
+  public void monsterPassage() {
+    Label cell = new Label();
+    ImageView monster = new ImageView(monsterimage);
+    monster.setFitWidth(50);
+    monster.setFitHeight(50);
+    cell.setGraphic(monster);
+    add(cell,6-monsterc*2-1,8/2 - 3/2+1);
+    monsterc++;
+  }
+
   public void initBackground() {
     int row = 8;
     int col = 8;
@@ -123,6 +211,8 @@ public class ChamberGrid extends GridPane {
     doorr=0;
     dooro=0;
     treasurec=0;
+    passagec=0;
+    monsterc=0;
     this.getChildren().clear();
     for (int i=0;i<row;i++) {
       for (int j=0;j<col;j++) {

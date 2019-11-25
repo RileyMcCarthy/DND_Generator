@@ -226,7 +226,27 @@ public class Interface extends Application {
 
     private void updateDrawing(String desc) {
       if (desc.contains("Passage")) {
-
+        centerLevel.initBackground();
+        if (desc.contains("passage turns to left and continues for 10 ft")) {
+          System.out.println("left");
+          centerLevel.drawRectanglePassage("left");
+        }else if (desc.contains("passage goes straight for 10 ft")){
+          System.out.println("straight");
+          centerLevel.drawRectanglePassage("straight");
+        }else {
+          System.out.println("right");
+          centerLevel.drawRectanglePassage("right");
+        }
+        System.out.println("straight");
+        centerLevel.drawRectanglePassage("end");
+        ArrayList<String> treasures = controller.getTreasureDescriptions(spaceView.getSelectionModel().getSelectedItem());
+        for (String str : treasures) {
+          centerLevel.treasurePassage();
+        }
+        ArrayList<String> monsters = controller.getMonsterDescriptions(spaceView.getSelectionModel().getSelectedItem());
+        for (String str : monsters) {
+          centerLevel.monsterPassage();
+        }
       }else {
         String findlength = "    Chamber Length: ";
         String findwidth = "    Chamber Width: ";
@@ -244,6 +264,7 @@ public class Interface extends Application {
         centerLevel.drawRectangle(width,height);
 
         ArrayList<String> doorDescriptions = controller.doorDescription(doorBox.getItems());
+        centerLevel.doorEntrance();
         for (String str : doorDescriptions) {
           if (str.contains("opposite wall")) {
             centerLevel.doorOpposite();

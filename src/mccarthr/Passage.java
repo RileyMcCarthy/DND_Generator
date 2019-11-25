@@ -202,7 +202,7 @@ public void setIndex(final int theIndex) {
 private String randomDescriptionGen() {
   Random r = new Random();
   int low = 0;
-  int high = 4;
+  int high = 3;
   int roll = r.nextInt(high - low) + low;
   ArrayList<String> table;
   table = generatePassageTable();
@@ -214,7 +214,6 @@ private String randomDescriptionGen() {
     passageTable.add("passage goes straight for 10 ft");
     passageTable.add("passage turns to left and continues for 10 ft");
     passageTable.add("passage turns to right and continues for 10 ft");
-    passageTable.add("Monster!,passage goes straight for 10 ft");
     return passageTable;
   }
 }
