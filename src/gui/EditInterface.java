@@ -10,6 +10,10 @@ import javafx.scene.control.ListView;
 import java.util.ArrayList;
 import javafx.stage.Modality;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
+import java.util.Optional;
 
 public class EditInterface {
 
@@ -49,7 +53,8 @@ public class EditInterface {
     Button add = new Button("Add Treasure");
     add.setOnAction((ActionEvent event) -> {
         String temp = treasureBox.getValue();
-        System.out.println(temp+"SPACE:"+space);
+        boolean check = confirm("Adding: "+temp);
+        if (check)
         controller.addTreasure(space, temp);
     });
 
@@ -61,6 +66,8 @@ public class EditInterface {
 
     Button remove = new Button("Remove Treasure");
     remove.setOnAction((ActionEvent event) -> {
+      boolean check = confirm("Removing: "+treasureView.getSelectionModel().getSelectedItem());
+      if (check)
         controller.removeTreasure(space, treasureView.getSelectionModel().getSelectedItem());
     });
 
@@ -89,6 +96,8 @@ public class EditInterface {
     Button add = new Button("Add Monster");
     add.setOnAction((ActionEvent event) -> {
         String temp = monsterBox.getValue();
+        boolean check = confirm("Adding: "+temp);
+        if (check)
         controller.addMonster(space, temp);
     });
     monsterBox = new ComboBox<String>();
@@ -99,6 +108,8 @@ public class EditInterface {
 
     Button remove = new Button("Remove Monster");
     remove.setOnAction((ActionEvent event) -> {
+      boolean check = confirm("Removing: "+monsterView.getSelectionModel().getSelectedItem());
+      if (check)
         controller.removeMonster(space, monsterView.getSelectionModel().getSelectedItem());
     });
 
@@ -126,6 +137,20 @@ public class EditInterface {
 
   private void clearStuff() {
     monsterView.getItems().clear();
+  }
+
+  private boolean confirm(String desc) {
+    Alert alert = new Alert(AlertType.CONFIRMATION);
+    alert.setTitle("Confirmation Dialog");
+    alert.setHeaderText("Are you sure?");
+    alert.setContentText(desc);
+
+    Optional<ButtonType> result = alert.showAndWait();
+    if (result.get() == ButtonType.OK){
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public void update(String value) {
